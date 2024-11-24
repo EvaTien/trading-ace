@@ -9,6 +9,7 @@ import (
 func main() {
 	config.LoadConfig()
 	db.InitDB()
+	db.CreateTables()
 
 	r := gin.Default()
 	err := r.Run()
