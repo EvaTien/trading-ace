@@ -7,12 +7,13 @@ import (
 )
 
 func main() {
-	config.LoadConfig()
+	config.Init()
+
 	db.InitDB()
 	db.CreateTables()
 
 	r := gin.Default()
-	err := r.Run()
+	err := r.Run(":8080")
 	if err != nil {
 		return
 	} // listen and serve on 0.0.0.0:8080

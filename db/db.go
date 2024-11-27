@@ -12,12 +12,11 @@ var DB *sql.DB
 
 func InitDB() {
 	var err error
-	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
-		config.DBUser,
-		config.DBPassword,
-		config.DBHost,
-		config.DBPort,
-		config.DBName)
+	connStr := fmt.Sprintf("postgres://%s:%s@%s:5432/%s?sslmode=disable",
+		config.Config.Database.User,
+		config.Config.Database.Password,
+		config.Config.Database.Host,
+		config.Config.Database.Name)
 
 	DB, err = sql.Open("postgres", connStr)
 	if err != nil {

@@ -1,28 +1,40 @@
 package config
 
 import (
+	"gopkg.in/yaml.v3"
+	"log"
 	"os"
+	"time"
 )
 
-var (
-	DBHost     string
-	DBPort     string
-	DBUser     string
-	DBPassword string
-	DBName     string
-)
-
-func LoadConfig() {
-	DBHost = getEnv("DB_HOST", "localhost")
-	DBPort = getEnv("DB_PORT", "5432")
-	DBUser = getEnv("DB_USER", "postgres")
-	DBPassword = getEnv("DB_PASSWORD", "password")
-	DBName = getEnv("DB_NAME", "mydb")
+type DatabaseConfig struct {
+	Host     string `yaml:"host"`
+	User     string `yaml:"user"`
+	Password string `yaml:"password"`
+	Name     string `yaml:"name"`
 }
 
-func getEnv(key, defaultValue string) string {
-	if value, exists := os.LookupEnv(key); exists {
-		return value
+type ServerConfig struct {
+	StartTime        time.Time `yaml:"start_time"`
+	ApiKey           string    `yaml:"api_key"`
+	SharePoolAddress string    `yaml:"share_pool_address"`
+	TrackingHash     string    `yaml:"tracking_hash"`
+}
+
+type config struct {
+	Server   ServerConfig   `yaml:"server"`
+	Database DatabaseConfig `yaml:"database"`
+}
+
+var Config config
+
+func Init() {
+	yamlFile, err := os.ReadFile("/app/config/config.yaml")
+	if err != nil {
+		log.Fatalf("Unmarshal: %v", err)
 	}
-	return defaultValue
+	err = yaml.Unmarshal(yamlFile, &Config)
+	if err != nil {
+		log.Fatalf("Unmarshal: %v", err)
+	}
 }

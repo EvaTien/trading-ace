@@ -10,10 +10,6 @@ services:
       - .:/app
     environment:
       - ENV=development
-      - DB_HOST=db
-      - DB_USER=postgres
-      - DB_PASSWORD=password
-      - DB_NAME=mydb
     command: ["go", "run", "main.go"]
     networks:
       - app_network
