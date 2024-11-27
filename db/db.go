@@ -36,16 +36,17 @@ func CreateTables() {
 		`CREATE TABLE IF NOT EXISTS users (
     		address TEXT PRIMARY KEY,
 	    	onboarding_completed BOOLEAN DEFAULT FALSE,
-	    	weekly_amount INTEGER DEFAULT 0,
-	    	total_amount INTEGER DEFAULT 0,
-	    	total_points INTEGER DEFAULT 0
+	    	weekly_amount FLOAT DEFAULT 0.0,
+	    	total_amount FLOAT DEFAULT 0.0,
+	    	total_points FLOAT DEFAULT 0.0
 		);`,
 		`CREATE TABLE IF NOT EXISTS user_points (
-    		address TEXT PRIMARY KEY,
+    		address TEXT NOT NULL,
 	    	week_start DATE NOT NULL,
 	    	week_end  DATE NOT NULL,
-	    	shared_points INTEGER NOT NULL,
-	    	total_points INTEGER NOT NULL
+	    	shared_points FLOAT NOT NULL,
+	    	total_points FLOAT NOT NULL,
+	    	CONSTRAINT pk_points PRIMARY KEY (address, week_start, week_end)
 		);`,
 	}
 
